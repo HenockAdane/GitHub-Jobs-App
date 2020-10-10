@@ -13,14 +13,14 @@ import HomePage from './JSXcomponents/homePage';
 import JobDivs from './JSXcomponents/jobDivs';
 
 import { useSelector, useDispatch} from "react-redux"
+import JobDescription from './JSXcomponents/jobDescription';
 
 // https://git-hub-jobs-app-by-henockadane.vercel.app/
 function App() {
 
-  const [state, setState] = useState(()=> ({routes: []}))
+  const [state, setState] = useState(()=> ({routes: [], themJC: "flex-start"}))
 
   let arr = []
-  let route;
 
   const dispatch = useDispatch();
   console.log(dispatch === useDispatch())
@@ -30,19 +30,13 @@ function App() {
     )
       .then((response) => response.json())
       .then((data) => {
-        route = data.map((a) => setState(ps => ({...ps, routes:
-          <Route exact={true} path={`/${a.id}`} render={()=>(
+         let routes = data.map((a) => <Route exact={true} path={`/${a.id}`} render={()=>(
 
-          <JobDivs
-            company={a.company}
-            companyLogo={a.company_logo}
-            type={a.type}
-            createdAt={a.created_at}
-            description={a.description}
-            location={a.location}
-            title={a.title}
-          />     )}  />})
-        ));
+          <JobDescription companyLogo={a.company_logo} company={a.company} link={a.company_url} createdAt={a.created_at} type={a.type} title={a.title} location={a.location} apply={a.how_to_apply} description={a.description} />     )}  />
+        );
+
+        setState(ps => ({...ps, routes:
+          routes}))
 
 
    
@@ -52,10 +46,12 @@ function App() {
       });
   }, []);
 
+  const themeClick = () => setState(ps => ps.themeJC === "flex-end" ? {...ps, themeJC: "flex-start"}: {...ps, themeJC: "flex-end"})
+
   const hello = () => "hello"
-  console.log(state.routes)
+  // console.log(state.routes)
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor: state.themeJC === "flex-end" ? "black" : "white"}}>
       <header className="App-header">
 
         <div className="headerMenu">
@@ -66,7 +62,7 @@ function App() {
           
             <img className="moon theme" src="/assets/desktop/icon-moon.svg"/>
 
-            <button className="themeBtn"><div className="buttonCircle"></div></button>
+            <button className="themeBtn" onClick={themeClick} style={{justifyContent: state.themeJC}}><div className="buttonCircle"></div></button>
 
             <img className="sun theme" src="/assets/desktop/icon-sun.svg"/>
 

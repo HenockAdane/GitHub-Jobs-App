@@ -1,3 +1,16 @@
+
+.filterDiv{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .filterSearch{
+        padding: 10px;
+    }
+}
+
 .jobsContainer{
     display: flex;
     justify-content: space-evenly;

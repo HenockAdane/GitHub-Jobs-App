@@ -43,14 +43,17 @@ function HomePage() {
     return (
         <div>
 
-            <input type="text" className="search" placeholder="search" onChange={searchChange}/>
-            <input type="text" className="search" placeholder="location" onChange={locationChange}/>
-           <input type="checkbox" onChange={checkChange}/>
+        <div className="filterDiv">
+            <input type="text" className="filterSearch" placeholder="search" onChange={searchChange}/>
+            <input type="text" className="filterSearch" placeholder="location" onChange={locationChange}/>
+           <input type="checkbox" className="filterSearch" onChange={checkChange}/> Full-Time Only
+        </div>
 
-            {state.search}
+
             <div className="jobsContainer">
             {jobsCheckBoxFilter.map((a) => (
           <JobDivs
+            to={a.id}
             company={a.company}
             companyLogo={a.company_logo}
             type={a.type}
