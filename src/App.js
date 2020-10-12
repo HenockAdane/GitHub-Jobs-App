@@ -38,7 +38,9 @@ function App() {
 
 
 
-  console.log(state.user.email)
+  if (state.user){
+    console.log(state.user.email)
+  }
 
 
   
