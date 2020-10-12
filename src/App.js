@@ -64,7 +64,7 @@ function App() {
   
         dispatch(apiStore(arr));
       });
-  }, [state.user]);
+  }, []);
 
   const themeClick = () => setState(ps => ps.themeJC === "flex-end" ? {...ps, themeJC: "flex-start"}: {...ps, themeJC: "flex-end"})
 
