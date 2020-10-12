@@ -12,7 +12,7 @@ function HomePage() {
     }))
 
          const jobsArr =  useSelector(state => state.APIReducer.APIObject)
-    console.log(state, jobsArr)
+    // console.log(state, jobsArr)
 
     const searchChange = e =>{
         // console.log(jobs)
@@ -26,13 +26,13 @@ function HomePage() {
     }
 
     const checkChange = e => {
-        console.log("check")
+        // console.log("check")
 
         setState(ps => ({...ps, checked: !ps.checked}))
 
     }
  
-    let jobsSearchFilter = state.search !== "" ? jobsArr.filter(a=> a.company.toLowerCase().includes(state.search.toLowerCase()) || a.title.toLowerCase().includes(state.search.toLowerCase()) || a.title.toLowerCase().includes(state.search.toLowerCase())) : jobsArr;
+    let jobsSearchFilter = state.search !== "" ? jobsArr.filter(a=> a.company.toLowerCase().includes(state.search.toLowerCase()) || a.title.toLowerCase().includes(state.search.toLowerCase()) || a.title.toLowerCase().includes(state.search.toLowerCase()) || a.type.toLowerCase().includes(state.search.toLowerCase())) : jobsArr;
 
     let jobsLocationFilter = state.location !== "" ? jobsSearchFilter.filter(a => a.location.toLowerCase().includes(state.location.toLowerCase())) : jobsSearchFilter
 
@@ -43,10 +43,11 @@ function HomePage() {
     return (
         <div>
 
-        <div className="filterDiv">
-            <input type="text" className="filterSearch" placeholder="search" onChange={searchChange}/>
-            <input type="text" className="filterSearch" placeholder="location" onChange={locationChange}/>
-           <input type="checkbox" className="filterSearch" onChange={checkChange}/> Full-Time Only
+        <div className="filters">
+            
+        <div className="filterDiv"><img className="filterImg" src="/assets/desktop/icon-search.svg" /><input type="text" className="filterSearch" placeholder="Filter by title, companies, expertise..." onChange={searchChange}/></div>
+        <div className="filterDiv"><img className="filterImg" src="/assets/desktop/icon-location.svg" /><input type="text" className="filterSearch" placeholder="Filter by location..." onChange={locationChange}/></div>
+        <div className="filterDiv"><input type="checkbox" onChange={checkChange}/><p>Full-Time Only</p></div>
         </div>
 
 

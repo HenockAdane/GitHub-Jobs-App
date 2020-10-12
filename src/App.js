@@ -12,27 +12,45 @@ import {
 import HomePage from './JSXcomponents/homePage';
 import JobDivs from './JSXcomponents/jobDivs';
 
+import { auth } from "./JSXcomponents/firestore"
+import {googleLogin, signOut} from "./JSXcomponents/firestore"
+
+
 import { useSelector, useDispatch} from "react-redux"
 import JobDescription from './JSXcomponents/jobDescription';
 
 // https://git-hub-jobs-app-by-henockadane.vercel.app/
 function App() {
 
-  const [state, setState] = useState(()=> ({routes: [], themJC: "flex-start"}))
+  const [state, setState] = useState(()=> ({user: {email:"helloemail"}, routes: [], themJC: "flex-start"}))
 
   let arr = []
 
   const dispatch = useDispatch();
-  console.log(dispatch === useDispatch())
+  // console.log(dispatch === useDispatch())
+  auth().onAuthStateChanged(user => {
+    setState(ps => ({...ps, user: user}))
+ 
+   });
+ 
+
   useEffect(() => {
+
+
+
+  console.log(state.user.email)
+
+
+  
     fetch(
       "https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?page=1"
     )
       .then((response) => response.json())
       .then((data) => {
-         let routes = data.map((a) => <Route exact={true} path={`/${a.id}`} render={()=>(
+         let routes = data.map((a) => {
+         return <Route exact={true} path={`/${a.id}`} render={()=>(
 
-          <JobDescription companyLogo={a.company_logo} company={a.company} link={a.company_url} createdAt={a.created_at} type={a.type} title={a.title} location={a.location} apply={a.how_to_apply} description={a.description} />     )}  />
+          <JobDescription companyLogo={a.company_logo} company={a.company} link={a.company_url} createdAt={a.created_at} type={a.type} title={a.title} location={a.location} howToApply={a.how_to_apply} description={a.description} />     )}  />}
         );
 
         setState(ps => ({...ps, routes:
@@ -44,29 +62,37 @@ function App() {
   
         dispatch(apiStore(arr));
       });
-  }, []);
+  }, [state.user]);
 
   const themeClick = () => setState(ps => ps.themeJC === "flex-end" ? {...ps, themeJC: "flex-start"}: {...ps, themeJC: "flex-end"})
 
   const hello = () => "hello"
-  // console.log(state.routes)
   return (
-    <div className="App" style={{backgroundColor: state.themeJC === "flex-end" ? "black" : "white"}}>
+    <div className="App" style={{backgroundColor: state.themeJC === "flex-end" ? "black" : "#DFDFDF"}}>
       <header className="App-header">
 
         <div className="headerMenu">
 
-          <h3>devjobs</h3>
+          <Link to={"/"}>devJobs</Link>
 
-          <div className="themeDiv">
-          
-            <img className="moon theme" src="/assets/desktop/icon-moon.svg"/>
 
-            <button className="themeBtn" onClick={themeClick} style={{justifyContent: state.themeJC}}><div className="buttonCircle"></div></button>
+          <nav>
 
-            <img className="sun theme" src="/assets/desktop/icon-sun.svg"/>
+            <ul>
 
-          </div>
+              <Link className="nav-links" to={"/"}>Home</Link>
+              {state.user ? <Link className="nav-links" to={"/"} onClick={signOut}>Sign Out</Link> : <Link className="nav-links" to={"/"} onClick={googleLogin}>Sign IN</Link>}
+
+              <div className="themeDiv">
+              
+                <img className="moon theme" src="/assets/desktop/icon-moon.svg"/>
+
+                <button className="themeBtn" onClick={themeClick} style={{justifyContent: state.themeJC}}><div className="buttonCircle"></div></button>
+
+                <img className="sun theme" src="/assets/desktop/icon-sun.svg"/>
+              </div>
+            </ul>
+          </nav>
 
         </div>
  

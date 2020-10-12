@@ -37,29 +37,42 @@
   }
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap');
 
+
+body{
+  font-family: 'Kumbh Sans', sans-serif;
+}
+
+.App{
+  min-height: 100vh;
+}
 
 
 .App-header{
   border: 1px solid;
-  min-height: 10vh;
+  min-height: 15vh;
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: #5964E0;
+  align-items: center;
+  border-style: none;
   border-bottom-left-radius: 45px;
+  background-image: url("/assets/desktop/bg-pattern-header.svg");
   
     .headerMenu{
       border: 1px solid;
       width: 80%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
+
+    
 
     .themeDiv{
       display: flex;
       align-items: center;
-      border: 1px solid;
     }
 
     .theme{
@@ -73,8 +86,8 @@
       border-radius: 20px;
       display: flex;
       align-items: center;
-      // justify-content: flex-start;
       margin: 0 3px;
+      cursor: pointer;
     }
 
     .themeBtn:focus{
