@@ -28,43 +28,40 @@ function App() {
 
   const dispatch = useDispatch();
   // console.log(dispatch === useDispatch())
-  auth().onAuthStateChanged(user => {
-    setState(ps => ({...ps, user: user}))
- 
-   });
+
  
 
-  useEffect(() => {
+   useEffect(() => {
 
-
-
-  // if (state.user){
-  //   console.log(state.user.email)
-  // }
 
 
   
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?page=1"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-         let routes = data.map((a) => {
-         return <Route exact={true} path={`/${a.id}`} render={()=>(
-
-          <JobDescription companyLogo={a.company_logo} company={a.company} link={a.company_url} createdAt={a.created_at} type={a.type} title={a.title} location={a.location} howToApply={a.how_to_apply} description={a.description} />     )}  />}
-        );
-
-        setState(ps => ({...ps, routes:
-          routes}))
-
-
+    auth().onAuthStateChanged(user => {
+      setState(ps => ({...ps, user: user}))
    
-        arr = data
+     });
+    
+      fetch(
+        "https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?page=1"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+           let routes = data.map((a) => {
+           return <Route exact={true} path={`/${a.id}`} render={()=>(
   
-        dispatch(apiStore(arr));
-      });
-  }, []);
+            <JobDescription companyLogo={a.company_logo} company={a.company} link={a.company_url} createdAt={a.created_at} type={a.type} title={a.title} location={a.location} howToApply={a.how_to_apply} description={a.description} />     )}  />}
+          );
+  
+          setState(ps => ({...ps, routes:
+            routes}))
+  
+  
+     
+          arr = data
+    
+          dispatch(apiStore(arr));
+        });
+    }, []);
 
   const themeClick = () => setState(ps => ps.themeJC === "flex-end" ? {...ps, themeJC: "flex-start"}: {...ps, themeJC: "flex-end"})
 
